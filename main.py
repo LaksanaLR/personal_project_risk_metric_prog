@@ -47,19 +47,19 @@ if __name__ == '__main__':
             calmar = cagr / max_drawdown
             print(calmar)
         elif 'mar' in query:
-            x = [float(input("Gains/loss: ")) for i in range(int(input("Number of years since inception: ")))]
+            x = [float(input("Gains/loss (exclude percentage sign): ")) for i in range(int(input("Number of years since inception (must be more than 1): ")))]
             y = np.array(x)
             df = pd.DataFrame(y)
-            highest_val = np.max(y)
-            lowest_val = np.min(y)
             first_val = df.head(1)
+            first_valfl = first_val.iloc[0]
             last_val = df.tail(1)
-            fl_valdf = np.divide(last_val, first_val)
-            fl_val = fl_valdf.mean()
-            max_drawdown = (highest_val - lowest_val) / highest_val * 100
-            cagr = (float(fl_val) ** (1 / len(y)) - 1) * 100
+            last_valfl = last_val.iloc[0]
+            fl_valdf = first_valfl/last_valfl
+            change = df.pct_change()
+            max_drawdown = change.min()
+            cagr = (float(fl_valdf) ** (1 / len(y)) - 1) * 100
             mar = cagr / max_drawdown
-            print(mar)
+            print(cagr)
         elif 'sharpe ratio' and 'sharpe' in query:
             x = [float(input("Gains/loss: ")) for i in range(int(input("Number of years since inception : ")))]
             y = np.array(x)
