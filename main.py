@@ -2,10 +2,11 @@ import numpy as np
 import pandas as pd
 import pandas_datareader as web
 import statsmodels.api as sm
+import sklearn
 from statsmodels import regression
 from sklearn.linear_model import LinearRegression
 
-print('Welcome, choose your option \n- Sortino Ratio\n- Calmar Ratio\n- MAR\n- Sharpe Ratio\n- Beta\n- Alpha\n- CAPM\n- R-Squared')
+print('Welcome, choose your option \n- Sortino Ratio\n- Calmar Ratio\n- MAR\n- Sharpe Ratio\n- Beta\n- Alpha\n- CAPM\n- R-Squared\n- Stdev')
 
 
 def myCommand():
@@ -65,10 +66,10 @@ if __name__ == '__main__':
             y = np.array(x)
             std = np.std(y)
             returns = input('Type in the target return or real return of portfolio/fund in terms of percentage (exclude percentage sign): ')
-            rfr = 0.09
+            rfr = input('Type in the risk-free rate: ')
             sharpe = (float(returns) - float(rfr)) / float(std)
-            print(float(sharpe))
-        elif 'beta' and 'beta' in query:
+            print(sharpe)
+        elif 'beta' in query:
             stock = str(input("Ticker: "))
             benchmark = str(input("Benchmark Index: "))
             startp = input("Initial Date (please use YYYY-MM-DD format): ")
@@ -130,7 +131,7 @@ if __name__ == '__main__':
             beta = linear_regression(benchmark_ret_log, stock_returns)
             capm = rfr + (beta*(mark_ret-rfr))
             print(capm)
-        elif 'r-squared' and 'r^2' and 'r squared' in query:
+        elif 'r-squared' in query:
             stock = str(input("Ticker: "))
             benchmark = str(input("Benchmark Index: "))
             startp = input("Initial Date (please use YYYY-MM-DD format): ")
@@ -143,7 +144,7 @@ if __name__ == '__main__':
             r_value = model.score(benchmark_data, stock_data)
             r_squared = r_value**2
             print(r_squared)
-        elif 'standard deviation' and 'stdev' and 'std' in query:
+        elif 'standard deviation' and 'stdev' in query:
             ticker = str(input("Ticker: "))
             startp = input("Initial Date (please use YYYY-MM-DD format): ")
             data = web.DataReader(ticker, 'yahoo', startp)
