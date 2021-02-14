@@ -147,7 +147,7 @@ if __name__ == '__main__':
         elif 'standard deviation' and 'stdev' in query:
             ticker = str(input("Ticker: "))
             startp = input("Initial Date (please use YYYY-MM-DD format): ")
-            data = web.DataReader(ticker, 'yahoo', startp)
+            data = web.DataReader(ticker, 'yahoo', startp)['Adj Close']
             data = np.array(data)
             std = data.std()
             print(std)
