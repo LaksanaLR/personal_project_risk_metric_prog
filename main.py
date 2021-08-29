@@ -87,19 +87,6 @@ if __name__ == '__main__':
                 linreg = regression.linear_model.OLS(y, x).fit()
                 return linreg.params[1]
             print("Beta: ", linear_regression(benchmark_ret, stock_returns))
-        elif 'r-squared' in query:
-            stock = str(input("Ticker: "))
-            benchmark = str(input("Benchmark Index: "))
-            startp = input("Initial Date (please use YYYY-MM-DD format): ")
-            stock_data = web.DataReader(stock, 'yahoo', startp)['Adj Close']
-            stock_data = np.array(stock_data)
-            benchmark_data = web.DataReader(benchmark, 'yahoo', startp)['Adj Close']
-            benchmark_data = np.array(benchmark_data).reshape(-1, 1)
-            model = LinearRegression()
-            model.fit(benchmark_data, stock_data)
-            r_value = model.score(benchmark_data, stock_data)
-            r_squared = r_value**2
-            print(r_squared)
         elif 'standard deviation' and 'stdev' in query:
             ticker = str(input("Ticker: "))
             startp = input("Initial Date (please use YYYY-MM-DD format): ")
