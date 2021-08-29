@@ -87,50 +87,6 @@ if __name__ == '__main__':
                 linreg = regression.linear_model.OLS(y, x).fit()
                 return linreg.params[1]
             print("Beta: ", linear_regression(benchmark_ret, stock_returns))
-        elif 'alpha' in query:
-            stock = str(input("Ticker: "))
-            benchmark = str(input("Benchmark Index: "))
-            startp = input("Initial Date (please use YYYY-MM-DD format): ")
-            stock_data = web.DataReader(stock, 'yahoo', startp)['Adj Close']
-            stock_returns = np.log(1 + stock_data.pct_change())[1:]
-            stock_returns = stock_returns.dropna()
-            stock_returns = np.array(stock_returns)
-            benchmark_data = web.DataReader(benchmark, 'yahoo', startp)['Adj Close']
-            benchmark_ret = np.log(1 + benchmark_data.pct_change())[1:]
-            benchmark_ret = benchmark_ret.dropna()
-            benchmark_ret = np.array(benchmark_ret)
-
-            def linear_regression(x, y):
-                x = sm.add_constant(x)
-                linreg = regression.linear_model.OLS(y, x).fit()
-                return linreg.params[0]
-            print("Alpha: ", linear_regression(benchmark_ret, stock_returns))
-        elif 'capm' in query:
-            stock = str(input("Ticker: "))
-            benchmark = str(input("Benchmark Index: "))
-            rfr = float(input("Risk Free Rate: "))
-            startp = input("Initial Date (please use YYYY-MM-DD format): ")
-            stock_data = web.DataReader(stock, 'yahoo', startp)['Adj Close']
-            stock_returns = np.log(1 + stock_data.pct_change())[1:]
-            stock_returns = stock_returns.dropna()
-            stock_returns = np.array(stock_returns)
-            benchmark_data = web.DataReader(benchmark, 'yahoo', startp)['Adj Close']
-            benchmark_ret_log = np.log(1 + benchmark_data.pct_change())[1:]
-            benchmark_ret_log = benchmark_ret_log.dropna()
-            benchmark_ret_log = np.array(benchmark_ret_log)
-            startd = benchmark_data.index.min()
-            endd = benchmark_data.index.max()
-            in_price = benchmark_data.loc[startd]
-            fin_price = benchmark_data.loc[endd]
-            mark_ret = ((fin_price-in_price)/in_price)*100
-
-            def linear_regression(x, y):
-                x = sm.add_constant(x)
-                linreg = regression.linear_model.OLS(y, x).fit()
-                return linreg.params[1]
-            beta = linear_regression(benchmark_ret_log, stock_returns)
-            capm = rfr + (beta*(mark_ret-rfr))
-            print(capm)
         elif 'r-squared' in query:
             stock = str(input("Ticker: "))
             benchmark = str(input("Benchmark Index: "))
